@@ -3,12 +3,21 @@ from fastapi.middleware.cors import CORSMiddleware
 import util
 
 app = FastAPI()
-# Configurer les origines autorisées pour CORS
+# # Configurer les origines autorisées pour CORS
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],  # Ou spécifie les origines autorisées spécifiques
+#     allow_credentials=True,
+#     allow_methods=["GET"],
+#     allow_headers=["*"],
+# )
+
+# Autoriser tous les domaines à accéder à l'API (pour le développement)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Ou spécifie les origines autorisées spécifiques
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["GET"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
