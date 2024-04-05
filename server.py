@@ -25,27 +25,14 @@ def get_location_names():
     locations = util.get_location_names()
     return {'locations': locations}
 
-# ////////////
-# @app.route('/predict_home_price', methods=['GET', 'POST'])
-# def predict_home_price():
-#     total_sqft = float(request.form['total_sqft'])
-#     location = request.form['location']
-#     bhk = int(request.form['bhk'])
-#     bath = int(request.form['bath'])
-
-#     response = jsonify({
-#         'estimated_price': util.get_estimated_price(location,total_sqft,bhk,bath)
-#     })
-#     response.headers.add('Access-Control-Allow-Origin', '*')
-#     return response
-# //////////
 @app.post('/predict_home_price')
-async def predict_home_price(total_sqft: float = Form(...), location: str = Form(...), bhk: int = Form(...), bath: int = Form(...)):
+async def predict_home_price(location: str = Form(...), total_sqft: float = Form(...), bhk: int = Form(...), bath: int = Form(...)):
     try:
         estimated_price = util.get_estimated_price(location, total_sqft, bhk, bath)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     return {'estimated_price': estimated_price}
+
 
 if __name__ == "__main__":
     print("Starting Python FastApi Server For Home Price Prediction...")
