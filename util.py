@@ -6,12 +6,12 @@ __locations = None
 __data_columns = None
 __model = None
 
-def get_estimated_price(location,sqft,bhk,bath):
+def get_estimated_price(location="ee",sqft=1000,bhk=2,bath=2):
     try:
-        loc_index = __data_columns.index(location.lower())
+        # loc_index = __data_columns.index(location.lower())
+        loc_index = 1
     except:
         loc_index = -1
-
     x = np.zeros(len(__data_columns))
     x[0] = sqft
     x[1] = bath
@@ -21,7 +21,6 @@ def get_estimated_price(location,sqft,bhk,bath):
 
     return round(__model.predict([x])[0],2)
 
-
 def load_saved_artifacts():
     print("loading saved artifacts...start")
     global  __data_columns
@@ -30,7 +29,7 @@ def load_saved_artifacts():
     with open("./artifacts/columns.json", "r") as f:
         __data_columns = json.load(f)['data_columns']
         __locations = __data_columns[3:]  # first 3 columns are sqft, bath, bhk
-
+        
     global __model
     if __model is None:
         with open('./artifacts/banglore_home_prices_model.pickle', 'rb') as f:
@@ -46,4 +45,3 @@ def get_data_columns():
 
 if __name__ == '__main__':
     print(get_location_names())
-
