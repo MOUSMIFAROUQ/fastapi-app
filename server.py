@@ -3,14 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import util
 
 app = FastAPI()
-# # Configurer les origines autorisées pour CORS
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  # Ou spécifie les origines autorisées spécifiques
-#     allow_credentials=True,
-#     allow_methods=["GET"],
-#     allow_headers=["*"],
-# )
 
 # Autoriser tous les domaines à accéder à l'API (pour le développement)
 app.add_middleware(
@@ -21,13 +13,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# @app.get("/")
-# async def root():
-#     return {"message": "Hello World"}
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: Optional[str] = None):
-#     return {"item_id": item_id, "q": q}
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 @app.get('/get_location_names')
 def get_location_names():
@@ -42,6 +30,9 @@ async def predict_home_price(location: str = Form(...), total_sqft: float = Form
         raise HTTPException(status_code=500, detail=str(e))
     return {'estimated_price': estimated_price}
 
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: Optional[str] = None):
+#     return {"item_id": item_id, "q": q}
 
 if __name__ == "__main__":
     print("Starting Python FastApi Server For Home Price Prediction...")
